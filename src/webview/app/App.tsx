@@ -119,7 +119,7 @@ const App: React.FC = () => {
             return (
                 <div className="no-data-overlay">
                     <p>No build data loaded. Select a stats file to begin visualization.</p>
-                    <p>Example: `webpack --json > stats.json`</p>
+                    <p>Example: `webpack --json &gt; stats.json`</p>
                 </div>
             );
         }
