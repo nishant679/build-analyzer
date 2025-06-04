@@ -3,6 +3,17 @@ import * as d3 from 'd3';
 import { NormalizedBuildStats, NormalizedModule, NormalizedChunk } from '../../../data/types';
 import { formatBytes, getTypeColor, getShortModuleName } from '../utils/vscode';
 
+// Define the TreemapNodeData interface outside the component for broader accessibility
+interface TreemapNodeData {
+    name: string;
+    path: string;
+    children?: TreemapNodeData[];
+    value?: number; // Sum of children's values or module's raw size
+    type: NormalizedModule['type'] | 'folder'; // Type for coloring
+    data?: NormalizedModule; // Reference to original module data for leaf nodes
+    size?: { raw: number; gzip?: number; }; // Added for tooltip consistency when it's a folder
+}
+
 interface TreemapVisualizationProps {
     stats: NormalizedBuildStats | null;
     searchTerm: string;
@@ -14,7 +25,8 @@ interface TreemapVisualizationProps {
  */
 const TreemapVisualization: React.FC<TreemapVisualizationProps> = ({ stats, searchTerm, activeTypes }) => {
     const svgRef = useRef<SVGSVGElement>(null);
-    const [tooltipContent, setTooltipContent] = useState<NormalizedModule | NormalizedChunk | null>(null);
+    // Updated tooltipContent to also accept TreemapNodeData for folder tooltips
+    const [tooltipContent, setTooltipContent] = useState<NormalizedModule | NormalizedChunk | TreemapNodeData | null>(null);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
     const [currentPath, setCurrentPath] = useState<string[]>([]); // For breadcrumb navigation
 
@@ -48,20 +60,12 @@ const TreemapVisualization: React.FC<TreemapVisualizationProps> = ({ stats, sear
 
         svg.selectAll('*').remove(); // Clear previous content
 
-        // Create a hierarchical data structure for the treemap
-        interface TreemapNodeData {
-            name: string;
-            path: string;
-            children?: TreemapNodeData[];
-            value?: number; // Sum of children's values or module's raw size
-            type: NormalizedModule['type'] | 'folder'; // Type for coloring
-            data?: NormalizedModule; // Reference to original module data for leaf nodes
-        }
-
         const rootData: TreemapNodeData = {
             name: 'root',
             path: '',
-            children: []
+            children: [],
+            type: 'folder', // Root is a folder
+            value: 0 // Will be summed
         };
 
         modules.forEach(module => {
@@ -92,6 +96,7 @@ const TreemapVisualization: React.FC<TreemapVisualizationProps> = ({ stats, sear
             // Assign the module's size to the leaf node
             currentParent.value = module.size.raw;
             currentParent.data = module; // Store original module data for tooltip
+            currentParent.size = module.size; // Store size for tooltip consistency
         });
 
         // D3 Treemap setup
@@ -121,14 +126,15 @@ const TreemapVisualization: React.FC<TreemapVisualizationProps> = ({ stats, sear
                 .attr('height', d => d.y1 - d.y0)
                 .attr('fill', d => getTypeColor(d.data.type))
                 .on('mouseover', (event, d) => {
-                    setTooltipContent(d.data.data || d.data); // Use original module data if available
+                    // For tooltip, use the original module data if it's a leaf, otherwise use the TreemapNodeData
+                    setTooltipContent(d.data.data || d.data);
                     setTooltipPos({ x: event.clientX + 10, y: event.clientY + 10 });
                 })
                 .on('mouseout', () => {
                     setTooltipContent(null);
                 })
                 .on('click', (event, d) => {
-                    // Drill down if it's a folder or a non-leaf node
+                    // Drill down if it's a folder (has children)
                     if (d.data.children && d.data.children.length > 0) {
                         setCurrentPath(d.data.path.split('/'));
                     }
@@ -174,7 +180,12 @@ const TreemapVisualization: React.FC<TreemapVisualizationProps> = ({ stats, sear
                 >
                     <strong>Name:</strong> {tooltipContent.name}<br />
                     {('path' in tooltipContent) && <><strong>Path:</strong> {tooltipContent.path}<br /></>}
-                    <strong>Size:</strong> {formatBytes(tooltipContent.size.raw)} ({tooltipContent.size.gzip ? formatBytes(tooltipContent.size.gzip) + ' gzipped' : 'N/A gzipped'})
+                    {/* Check if tooltipContent has a size property before accessing it */}
+                    {tooltipContent.size && (
+                        <>
+                            <strong>Size:</strong> {formatBytes(tooltipContent.size.raw)} ({tooltipContent.size.gzip ? formatBytes(tooltipContent.size.gzip) + ' gzipped' : 'N/A gzipped'})
+                        </>
+                    )}
                 </div>
             )}
         </div>

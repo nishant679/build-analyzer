@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Dashboard from './components/Dashboard';
+// import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashbord';
 import FilterControls from './components/FilterControls';
 import GraphVisualization from './components/GraphVisualization';
 import TreemapVisualization from './components/TreemapVisualization';
@@ -119,7 +120,7 @@ const App: React.FC = () => {
             return (
                 <div className="no-data-overlay">
                     <p>No build data loaded. Select a stats file to begin visualization.</p>
-                    <p>Example: `webpack --json > stats.json`</p>
+                    <p>Example: `webpack --json  stats.json`</p>
                 </div>
             );
         }

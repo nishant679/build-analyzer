@@ -36,13 +36,15 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({ stats, searchTe
         }
 
         const modules = filteredModules();
-        const links: { source: string; target: string }[] = []; // Explicitly type links
+        // Explicitly type links to match SimulationLinkDatum requirements
+        const links: d3.SimulationLinkDatum<NormalizedModule>[] = []; 
 
         // Create links only between visible modules
         const visibleModuleIds = new Set(modules.map(m => m.id));
         modules.forEach(sourceModule => {
             sourceModule.dependencies.forEach(targetId => {
                 if (visibleModuleIds.has(targetId)) {
+                    // D3 forceLink expects source/target to be node objects or their IDs
                     links.push({ source: sourceModule.id, target: targetId });
                 }
             });
@@ -60,8 +62,8 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({ stats, searchTe
         const g = svg.append('g');
 
         // Define the simulation
-        const simulation = d3.forceSimulation<NormalizedModule, d3.ForceLink<NormalizedModule, NormalizedModule>>(modules)
-            .force('link', d3.forceLink<NormalizedModule, NormalizedModule>(links).id(d => d.id).distance(100).strength(0.7))
+        const simulation = d3.forceSimulation<NormalizedModule, d3.SimulationLinkDatum<NormalizedModule>>(modules)
+            .force('link', d3.forceLink<NormalizedModule, d3.SimulationLinkDatum<NormalizedModule>>(links).id(d => d.id).distance(100).strength(0.7))
             .force('charge', d3.forceManyBody<NormalizedModule>().strength(-300)) // Repel nodes
             .force('center', d3.forceCenter<NormalizedModule>(width / 2, height / 2)) // Center the graph
             .force('collide', d3.forceCollide<NormalizedModule>(20)); // Prevent nodes from overlapping too much
