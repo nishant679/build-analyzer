@@ -4,7 +4,7 @@ import { NormalizedBuildStats, NormalizedModule, NormalizedChunk } from '../../.
 import { formatBytes, getTypeColor, getShortModuleName } from '../utils/vscode';
 
 // Define the TreemapNodeData interface outside the component for broader accessibility
-interface TreemapNodeData {
+export interface TreemapNodeData { // Added 'export' keyword
     name: string;
     path: string;
     children?: TreemapNodeData[];
