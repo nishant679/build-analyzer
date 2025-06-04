@@ -1,21 +1,23 @@
 {
-  "name": "bundle-analyzer",
-  "displayName": "bundle-analyzer",
-  "description": "Analyze and visualize webpack and vite build files for dev and production enviroments. ",
+  "name": "build-visualizer",
+  "displayName": "Build Visualizer",
+  "description": "A VS Code extension to visualize frontend build processes.",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.100.0"
+    "vscode": "^1.88.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:buildVisualizer.show"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "bundle-analyzer.helloWorld",
-        "title": "Hello World"
+        "command": "buildVisualizer.show",
+        "title": "Build Visualizer: Show"
       }
     ]
   },
@@ -24,18 +26,33 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "webpack": "webpack --mode production --config ./webpack.config.js",
+    "webpack-dev": "webpack --mode development --config ./webpack.config.js --watch"
   },
   "devDependencies": {
-    "@types/vscode": "^1.100.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.3",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
+    "@types/d3": "^7.4.3",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.1",
+    "@types/vscode": "^1.88.0",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "@vscode/test-electron": "^2.3.9",
+    "css-loader": "^7.1.2",
+    "eslint": "^8.57.0",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "d3": "^7.9.0"
   }
 }

@@ -1,0 +1,141 @@
+{
+    "time": 7890,
+    "assets": [
+      {
+        "name": "main.bundle.js",
+        "size": 1500000,
+        "chunks": ["main"]
+      },
+      {
+        "name": "vendors.bundle.js",
+        "size": 2100000,
+        "chunks": ["vendors"]
+      },
+      {
+        "name": "app.css",
+        "size": 250000,
+        "chunks": ["main"]
+      },
+      {
+        "name": "logo.svg",
+        "size": 15000,
+        "chunks": []
+      },
+      {
+        "name": "icon-font.woff2",
+        "size": 30000,
+        "chunks": []
+      }
+    ],
+    "modules": [
+      {
+        "id": "./src/index.js",
+        "name": "./src/index.js",
+        "size": 75000,
+        "reasons": [{"moduleIdentifier": "./src/App.js", "type": "harmony import"}],
+        "chunks": ["main"]
+      },
+      {
+        "id": "./src/App.js",
+        "name": "./src/App.js",
+        "size": 120000,
+        "reasons": [
+          {"moduleIdentifier": "./src/components/Header.js", "type": "harmony import"},
+          {"moduleIdentifier": "./src/components/Footer.js", "type": "harmony import"},
+          {"moduleIdentifier": "./node_modules/react/index.js", "type": "harmony import"}
+        ],
+        "chunks": ["main"]
+      },
+      {
+        "id": "./src/components/Header.js",
+        "name": "./src/components/Header.js",
+        "size": 40000,
+        "reasons": [{"moduleIdentifier": "./src/App.js", "type": "harmony import"}],
+        "chunks": ["main"]
+      },
+      {
+        "id": "./src/components/Footer.js",
+        "name": "./src/components/Footer.js",
+        "size": 30000,
+        "reasons": [{"moduleIdentifier": "./src/App.js", "type": "harmony import"}],
+        "chunks": ["main"]
+      },
+      {
+        "id": "./node_modules/react/index.js",
+        "name": "./node_modules/react/index.js",
+        "size": 180000,
+        "reasons": [{"moduleIdentifier": "./src/App.js", "type": "harmony import"}],
+        "chunks": ["vendors"]
+      },
+      {
+        "id": "./node_modules/react-dom/index.js",
+        "name": "./node_modules/react-dom/index.js",
+        "size": 600000,
+        "reasons": [{"moduleIdentifier": "./src/index.js", "type": "harmony import"}],
+        "chunks": ["vendors"]
+      },
+      {
+        "id": "./node_modules/lodash/index.js",
+        "name": "./node_modules/lodash/index.js",
+        "size": 350000,
+        "reasons": [{"moduleIdentifier": "./src/utils/helpers.js", "type": "harmony import"}],
+        "chunks": ["vendors"]
+      },
+      {
+        "id": "./src/utils/helpers.js",
+        "name": "./src/utils/helpers.js",
+        "size": 20000,
+        "reasons": [{"moduleIdentifier": "./src/App.js", "type": "harmony import"}],
+        "chunks": ["main"]
+      },
+      {
+        "id": "./src/styles/base.css",
+        "name": "./src/styles/base.css",
+        "size": 50000,
+        "reasons": [{"moduleIdentifier": "./src/index.js", "type": "css import"}],
+        "chunks": ["main"]
+      },
+      {
+        "id": "./src/styles/components.css",
+        "name": "./src/styles/components.css",
+        "size": 80000,
+        "reasons": [{"moduleIdentifier": "./src/styles/base.css", "type": "css import"}],
+        "chunks": ["main"]
+      },
+      {
+        "id": "./src/assets/image.png",
+        "name": "./src/assets/image.png",
+        "size": 100000,
+        "reasons": [{"moduleIdentifier": "./src/components/Header.js", "type": "asset/resource"}],
+        "chunks": ["main"]
+      }
+    ],
+    "chunks": [
+      {
+        "id": "main",
+        "names": ["main"],
+        "size": 1500000,
+        "modules": [
+          {"id": "./src/index.js", "name": "./src/index.js", "size": 75000},
+          {"id": "./src/App.js", "name": "./src/App.js", "size": 120000},
+          {"id": "./src/components/Header.js", "name": "./src/components/Header.js", "size": 40000},
+          {"id": "./src/components/Footer.js", "name": "./src/components/Footer.js", "size": 30000},
+          {"id": "./src/utils/helpers.js", "name": "./src/utils/helpers.js", "size": 20000},
+          {"id": "./src/styles/base.css", "name": "./src/styles/base.css", "size": 50000},
+          {"id": "./src/styles/components.css", "name": "./src/styles/components.css", "size": 80000},
+          {"id": "./src/assets/image.png", "name": "./src/assets/image.png", "size": 100000}
+        ]
+      },
+      {
+        "id": "vendors",
+        "names": ["vendors"],
+        "size": 2100000,
+        "modules": [
+          {"id": "./node_modules/react/index.js", "name": "./node_modules/react/index.js", "size": 180000},
+          {"id": "./node_modules/react-dom/index.js", "name": "./node_modules/react-dom/index.js", "size": 600000},
+          {"id": "./node_modules/lodash/index.js", "name": "./node_modules/lodash/index.js", "size": 350000}
+        ]
+      }
+    ]
+  }
+  
